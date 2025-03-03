@@ -1,7 +1,7 @@
-import productWebApi from '../../DB/db.config.js'
+import productWebApi from '../../lib/Routing.js'
 import ProductClass from '../controllers/ProductClass.js'
 
 
-productWebApi.route('/product').get(ProductClass.allProducts)
+productWebApi.route('/products').get(ProductClass.allProducts)
 
 export default productWebApi
