@@ -3,6 +3,7 @@ import dashboard from "./admin/routes/dashboard.js";
 import product from "./admin/routes/product.js";
 import cors from "cors";
 import prisma from "./DB/db.config.js";
+import productWebApi from "./web/router/productApi.js";
 
 
 const app = express();
@@ -15,6 +16,16 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 app.use('/admin', dashboard)
 app.use('/admin', product)
+
+
+
+app.use('/web', productWebApi)
+
+
+
+
+
+
 
 async function checkConnection() {
   try {

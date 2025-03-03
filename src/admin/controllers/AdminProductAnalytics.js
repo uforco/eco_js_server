@@ -5,16 +5,19 @@ class AdminProductAnalytics {
     const products = await prisma.product.findMany({
       select: { createdAt: true },
     });
+
     const monthCounts = products.reduce((acc, product) => {
       const month = new Date(product.createdAt).toLocaleString("en-US", { month: "long" });
     
       acc[month] = (acc[month] || 0) + 1;
       return acc;
     }, {});
-    const formattedData = Object.entries(monthCounts).map(([month, totalProduct]) => ({
+
+    const formattedData = Object.entries(monthCounts).map(([month, Product]) => ({
       month,
-      totalProduct,
+      Product,
     }));
+
     res.send({ totalchart: formattedData });
   }
   static async createProduct(req, res) {

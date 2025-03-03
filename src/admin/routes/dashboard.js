@@ -1,7 +1,10 @@
-import routing from "../../lib/Routing.js";
+import dashboard from "../../lib/Routing.js";
+import DashBoardAnalytics from "../controllers/dashboard.js";
 
-routing.route("/dashborad").get((req, res) => {
+dashboard.route("/dashborad").get((req, res) => {
   console.log("dashboard");
 });
 
-export default routing;
+dashboard.route("/dashborad/total-top-card").get(DashBoardAnalytics.totalUesrOrderProductReview);
+
+export default dashboard;
