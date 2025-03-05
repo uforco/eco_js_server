@@ -9,6 +9,7 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
+  userId   String @unique @default(cuid())
   name     String
   email    String @unique
   password String
@@ -34,4 +35,14 @@ model Product {
   bercode           String?  @unique
   brand_logo        String?
   qty               String
+}
+
+model addToCart {
+  id         Int      @id @default(autoincrement())
+  cart_id    String   @unique @default(cuid())
+  user_id    Int
+  product_id String
+  quantity   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 }
