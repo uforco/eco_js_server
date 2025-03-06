@@ -1,0 +1,12 @@
+model addToCart {
+  id         Int       @id @default(autoincrement())
+  cart_id    String?   @unique @default(cuid())
+  product_id String
+  quantity   Float
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime  @default(now())
+  userId     String
+  product    Product   @relation(fields: [product_id], references: [product_id])
+
+  @@unique([userId, product_id])
+}

@@ -1,0 +1,22 @@
+model Product {
+  id                String      @id @unique @default(cuid())
+  product_id        String      @unique @default(uuid())
+  product_name      String      @db.VarChar(255)
+  image             Json?
+  rating            Int?        @default(1)
+  price             String
+  discount          String?     @default("0")
+  brand_name        String?
+  short_Description String
+  description       String
+  type              String
+  category          String
+  stock_Status      Int         @default(0)
+  tag               String?
+  createdAt         DateTime    @default(now())
+  scale             String
+  bercode           String?     @unique
+  brand_logo        String?
+  qty               String
+  addToCart         addToCart[]
+}

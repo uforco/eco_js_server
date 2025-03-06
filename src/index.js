@@ -5,6 +5,7 @@ import cors from "cors";
 import prisma from "./DB/db.config.js";
 import productWebApi from "./web/router/productApi.js";
 import userDetails from "./web/router/user.js";
+import orderapi from "./web/router/orderApi.js";
 
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/admin', product)
 
 app.use('/web', productWebApi)
 app.use('/web', userDetails)
+app.use('/web', orderapi)
 
 
 
