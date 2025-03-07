@@ -26,10 +26,16 @@ class AdminProductAnalytics {
   }
   static async createProduct(req, res) {
     try {
-      const data = await prisma.product.create({
+
+      // const data = await prisma.product.create({
+      //   data: req.body,
+      // });
+      const data = await prisma.product.createMany({
         data: req.body,
       });
       res.send(data);
+
+
     } catch (error) {
       res.send({
         success: false,

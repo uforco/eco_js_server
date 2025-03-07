@@ -19,4 +19,5 @@ model Product {
   brand_logo        String?
   qty               String
   addToCart         addToCart[]
+  orderHistory orderHistory[]
 }

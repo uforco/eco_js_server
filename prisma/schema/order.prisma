@@ -1,37 +1,39 @@
-model orderHistory {
-    id String @id @unique @default(cuid())
 
-    product_id   String
-    product_name String
-    quantity     Float
-    price        Float
-    discount     Float
-    total_price Float
-
-    image     String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-
-    order_detail_id String
-    order           Order  @relation(fields: [order_detail_id], references: [order_id])
-}
 
 model Order {
-    id            String        @id @default(cuid())
-    order_id      String        @unique
-
-    user_id       String
-    order_detail orderHistory[]
-
-    address String 
-    city    String
-    state   String
-    postcode String
-
-
-    order_date   DateTime       @default(now())
-    
+    id                  String              @id @unique @default(cuid())
+    order_id            String              @unique @default(cuid())
+    userId              String 
+    user                User                @relation(fields: [userId], references: [userId])
+    order_items         orderHistory[]
+    deliveryAddress     deliyveryAddress?
+    order_date          DateTime            @default(now())
 }
 
-// order_status  String
-//     order_process Int
+
+model orderHistory {
+    id                  String      @id @unique @default(cuid())
+    product_id          String     
+    product             Product     @relation(fields: [product_id], references: [product_id])
+    price               Float
+    discount            Float
+    quantity            Float
+    total_price         Decimal
+    order_id            String      @unique
+    order               Order       @relation(fields: [order_id], references: [id])
+    createdAt           DateTime    @default(now())
+    updatedAt           DateTime    @default(now())
+    @@unique([product_id, order_id])
+}
+
+
+model deliyveryAddress {
+    id       String  @id @unique @default(cuid())
+    address  String
+    city     String
+    state    String
+    postcode String
+    phone    String
+    orderId  String @unique
+    order    Order  @relation(fields: [orderId], references: [id])
+}

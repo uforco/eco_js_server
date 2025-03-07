@@ -111,15 +111,11 @@ const addToCardProductWithUser = async (req, res) => {
 };
 
 async function registerUser(req, res) {
-  const { name, email, password } = req.body;
+  // const { name, email, password } = req.body;
 
   try {
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password,
-      },
+    const user = await prisma.user.createMany({
+      data: req.body,
     });
     res.send(user);
   } catch (error) {

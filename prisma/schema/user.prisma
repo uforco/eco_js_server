@@ -4,4 +4,6 @@ model User {
   email    String @unique
   password String
   userId   String @unique @default(cuid())
+
+  Order Order[]
 }
