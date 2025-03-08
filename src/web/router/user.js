@@ -6,5 +6,12 @@ userDetails.route("/add-to-card").post(PtoductDetailsByUser.addToCardProductWith
 
 userDetails.route("/singup").post(PtoductDetailsByUser.singupUser);
 
+userDetails.route("/singuponly").post(PtoductDetailsByUser.singuponly);
+userDetails.route("/login").post(PtoductDetailsByUser.getLogin);
+
+
+
+userDetails.route("/getusers").get(PtoductDetailsByUser.getUsersDetails);
+
 
 export default userDetails;

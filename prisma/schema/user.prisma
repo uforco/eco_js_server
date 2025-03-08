@@ -1,9 +1,28 @@
 model User {
-  id       Int    @id @unique @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  userId   String @unique @default(cuid())
+  id            Int    @id @unique @default(autoincrement())
+  userId        String @unique @default(cuid())
 
-  Order Order[]
+  profileImage  String?
+  firstName     String @db.VarChar(30)
+  lastName      String @db.VarChar(30)
+  email         String @unique
+  password      String
+  phoneNumber   String? @unique
+  verify Boolean @default(false)
+
+  userAddress   userAddress?
+  Order         Order[]
+  
+}
+
+
+model userAddress {
+  id       Int    @id @unique @default(autoincrement())
+  address  String
+  city     String
+  state    String
+  postcode String
+  userId   Int    @unique
+  user     User   @relation(fields: [userId], references: [id])
+  @@unique([userId, id])
 }

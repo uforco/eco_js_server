@@ -13,9 +13,115 @@ class PtoductDetailsByUser {
   static async getAllCartProductWithUser(...args) {
     return await userAllCartProduct(...args);
   }
+  static async getLogin(...args) {
+    return await login (...args);
+  }
+
+  static async getUsersDetails( req, res) {
+
+    try{
+      const userDetails = await prisma.user.findMany({
+        select: {
+          profileImage: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNamber: true,
+          password: true
+        },
+      });
+
+      console.log("userDetails", userDetails)
+
+      res.send({
+        success: true,
+        message: `User Details: ${userDetails}`,
+      })
+
+
+    } catch (error) {
+      console.error("Error in upsert operation:", error);
+      res.send({
+        success: false,
+        message: `Error: ${error.message}`,
+      });
+    }
+
+
+    
+  }
+  static async singuponly( req, res) {
+
+    console.log("req.body", req.body)
+
+    const { userAddress, ...userData } = req.body;
+
+    console.log("userData", userData)
+    console.log("=====================================")
+    console.log("userData", userAddress)
+
+    try{
+      const userDetails = await prisma.user.create({
+        data: {
+          ...userData,
+          userAddress: {
+            create: userAddress,
+          },
+        },
+      });
+
+      console.log("userDetails", userDetails)
+
+      res.send({
+        success: true,
+        message: `User Details: ${userDetails}`,
+      })
+
+
+    } catch (error) {
+      console.error("Error in upsert operation:", error);
+      res.send({
+        success: false,
+        message: `Error: ${error.message}`,
+      });
+    }
+
+
+    
+  }
 }
 
 export default PtoductDetailsByUser;
+
+
+
+
+
+
+const login = async (req, res) => {
+
+
+  const { email, password } = req.body
+
+  console.log(req.body)
+
+  if(!email || !password) res.send({
+    success: false,
+    mag: "fill all input"
+  })
+
+  res.send({
+    success: true,
+    data: req.body
+  })
+
+}
+
+
+
+
+
+
 
 
 
@@ -111,13 +217,30 @@ const addToCardProductWithUser = async (req, res) => {
 };
 
 async function registerUser(req, res) {
-  // const { name, email, password } = req.body;
+  const usersData = req.body;
 
   try {
-    const user = await prisma.user.createMany({
-      data: req.body,
-    });
-    res.send(user);
+
+
+    for (const userData of usersData) {
+      const userExists = await prisma.user.create({
+        data: userData,
+      });
+      console.log("create user", userExists)
+    }
+
+
+
+    // const user = await prisma.user.createMany({
+    //   data: req.body,
+    // });
+
+    res.send({ success: true, message: "Users created successfully!" });
+
+
+
+
+
   } catch (error) {
     // if (error instanceof prisma.PrismaClientKnownRequestError) {
     //   if (error.code === 'P2002') {
@@ -140,5 +263,7 @@ async function registerUser(req, res) {
     } else {
       res.status(400).send("Unexpected error:", error);
     }
+
+    // console.error("Error creating user:", error);
   }
 }

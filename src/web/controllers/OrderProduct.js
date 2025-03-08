@@ -1,70 +1,58 @@
-
-import prisma from './../../DB/db.config.js';
+import generateUniqueOrderId from "../../lib/generateUniqueOrderId.js";
+import prisma from "./../../DB/db.config.js";
 
 class OrderProductClass {
+  static async createOrderProduct(req, res) {
+    // const { product_id, quantity, userId } = req.body;
 
-    static async createOrderProduct(req, res) {
-        // const { product_id, quantity, userId } = req.body;
+    try {
+      const orderId = await generateUniqueOrderId();
 
-        // const newOrder = await prisma.order.findMany({
-        //     where: {
-        //       userId: req.body.userId,
-        //     },
-        //   include: {
-        //     order_items: true,
-        //     deliveryAddress: true,
-        //   },
-        // });
+      const newOrder = await prisma.order.create({
+        data: {
+          order_id: orderId,
+          userId: req.body.userId,
+          order_items: {
+            create: req.body.order_items,
+          },
+          deliveryAddress: {
+            create: req.body.deliveryAddress,
+          },
+        },
+        include: {
+          order_items: true,
+          deliveryAddress: true,
+        },
+      });
 
+      // console.log("Order Id:", orderId);
+      console.log("Order created successfully:", newOrder);
 
-        const newOrder = await prisma.order.create({
-            data: {
-              userId: req.body.userId,
-              order_items: {
-                create: req.body.order_items,
-              },
-              deliveryAddress: {
-                create: req.body.deliveryAddress,
-              },
-            },
-            include: {
-              order_items: true,
-              deliveryAddress: true,
-            },
-          });
-
-
-        // try {
-        //   await prisma.orderHistory.deleteMany({});
-        //   await prisma.deliyveryaddress.deleteMany({});
-        //   await prisma.order.deleteMany({});
-      
-        //   console.log("All data deleted successfully.");
-        // } catch (error) {
-        //   console.error("Error deleting data:", error);
-        // } finally {
-        //   await prisma.$disconnect();
-        // }
-
-
-
-
-
-        console.log(newOrder)
-
-        // console.log(req.body)
-
-
-       res.send(req.body)
+    } catch (error) {
+      console.error("Error creating order:", error);
+    } finally {
+      await prisma.$disconnect();
     }
+
+    // try {
+    //   await prisma.orderHistory.deleteMany({});
+    //   await prisma.deliyveryAddress.deleteMany({});
+    //   await prisma.order.deleteMany({});
+
+    //   console.log("All data deleted successfully.");
+    // } catch (error) {
+    //   console.error("Error deleting data:", error);
+    // } finally {
+    //   await prisma.$disconnect();
+    // }
+
+    // console.log(req.body)
+
+    res.send(req.body);
+  }
 }
 
 export default OrderProductClass;
-
-
-
-
-
 
 // const processMultipleOrders = async (orders) => {
 //     return prisma.$transaction(async (tx) => {
@@ -74,10 +62,10 @@ export default OrderProductClass;
 //         where: { id: { in: productIds } },
 //         select: { id: true, stock: true },
 //       });
-  
+
 //       // Map product stock by ID
 //       const productStockMap = new Map(products.map((p) => [p.id, p.stock]));
-  
+
 //       // Validate stock availability
 //       for (const order of orders) {
 //         const availableStock = productStockMap.get(order.productId) ?? 0;
@@ -85,7 +73,7 @@ export default OrderProductClass;
 //           throw new Error(`Insufficient stock for product ID: ${order.productId}`);
 //         }
 //       }
-  
+
 //       // Update stock and insert orders
 //       const updateStockPromises = orders.map((order) =>
 //         tx.product.update({
@@ -93,7 +81,7 @@ export default OrderProductClass;
 //           data: { stock: { decrement: order.quantity } },
 //         })
 //       );
-  
+
 //       const createOrdersPromises = orders.map((order) =>
 //         tx.order.create({
 //           data: {
@@ -103,10 +91,10 @@ export default OrderProductClass;
 //           },
 //         })
 //       );
-  
+
 //       // Execute all updates and inserts in parallel
 //       const successOrder = await Promise.all([...updateStockPromises, ...createOrdersPromises]);
-  
+
 //       console.log("Orders placed:-----", successOrder);
 //       console.log("End placed:----------------------------",);
 
