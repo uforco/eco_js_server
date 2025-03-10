@@ -24,12 +24,12 @@ class OrderProductClass {
           deliveryAddress: true,
         },
       });
-
-      // console.log("Order Id:", orderId);
       console.log("Order created successfully:", newOrder);
+      res.send({message: "successfully", newOrder: newOrder })
 
     } catch (error) {
-      console.error("Error creating order:", error);
+      console.error("Error creating order:", error.message);
+      res.status(401).send({ message: "something is Wrong please Order try again" });
     } finally {
       await prisma.$disconnect();
     }
@@ -48,7 +48,7 @@ class OrderProductClass {
 
     // console.log(req.body)
 
-    res.send(req.body);
+    
   }
 }
 

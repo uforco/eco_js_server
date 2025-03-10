@@ -20,6 +20,11 @@ app.use('/admin', dashboard)
 app.use('/admin', product)
 
 
+// const authorizeion = ( req, res, next ) => {
+//  console.log("authorizeion")
+// }
+
+
 
 app.use('/web', productWebApi)
 app.use('/web', userDetails)

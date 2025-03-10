@@ -105,15 +105,18 @@ const login = async (req, res) => {
 
   console.log(req.body)
 
-  if(!email || !password) res.send({
-    success: false,
-    mag: "fill all input"
-  })
 
-  res.send({
+  if(email == 'srka780@gmail.com' && password == '123456'){ res.send({
     success: true,
-    data: req.body
-  })
+    data: {email: req.body.email}
+  })}else{
+    res.send({
+      success: false,
+      mag: "fill all input"
+    })
+  }
+
+  
 
 }
 

@@ -34,6 +34,7 @@ class ProductClass {
         console.log(peoductid)
         res.send(quickViewData)
     }
+    
     static async allProducts (req, res) {
         const data = await prisma.$queryRaw`
             SELECT 
