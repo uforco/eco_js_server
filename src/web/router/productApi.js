@@ -5,4 +5,6 @@ productWebApi.route("/products").get(ProductClass.allProducts);
 
 productWebApi.route("/product/:id").get(ProductClass.singleProductView);
 
+productWebApi.route("/relatedproducts").get(ProductClass.relatedProducts);
+
 export default productWebApi;

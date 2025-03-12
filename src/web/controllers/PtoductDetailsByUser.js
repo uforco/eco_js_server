@@ -207,8 +207,11 @@ const addToCardProductWithUser = async (req, res) => {
         quantity,
         updatedAt: new Date(),
       },
+      select: {
+        cart_id: true
+      }
     });
-    res.send({ "cardInfo-create": cardInfo2 });
+    res.send(cardInfo2);
 
   } catch (error) {
     console.error("Error in upsert operation:", error);
