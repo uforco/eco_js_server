@@ -50,41 +50,13 @@ class PtoductDetailsByUser {
 
     
   }
+
+
   static async singuponly( req, res) {
 
-    console.log("req.body", req.body)
+    console.log("singuponly", req.body)
 
-    const { userAddress, ...userData } = req.body;
-
-    console.log("userData", userData)
-    console.log("=====================================")
-    console.log("userData", userAddress)
-
-    try{
-      const userDetails = await prisma.user.create({
-        data: {
-          ...userData,
-          userAddress: {
-            create: userAddress,
-          },
-        },
-      });
-
-      console.log("userDetails", userDetails)
-
-      res.send({
-        success: true,
-        message: `User Details: ${userDetails}`,
-      })
-
-
-    } catch (error) {
-      console.error("Error in upsert operation:", error);
-      res.send({
-        success: false,
-        message: `Error: ${error.message}`,
-      });
-    }
+    return res.send({mag: "test", cart_id: "3463473wgsed"})
 
 
     
@@ -92,35 +64,6 @@ class PtoductDetailsByUser {
 }
 
 export default PtoductDetailsByUser;
-
-
-
-
-
-
-const login = async (req, res) => {
-
-
-  const { email, password } = req.body
-
-  console.log(req.body)
-
-
-  if(email == 'srka780@gmail.com' && password == '123456'){ res.send({
-    success: true,
-    data: {email: req.body.email}
-  })}else{
-    res.send({
-      success: false,
-      mag: "fill all input"
-    })
-  }
-
-  
-
-}
-
-
 
 
 
@@ -181,12 +124,15 @@ const userAllCartProduct = async (req, res) => {
   }
 };
 
+
+
 const addToCardProductWithUser = async (req, res) => {
   try {
     const { product_id, quantity, userId } = req.body;
 
-    const userExists = isExistsUser(userId);
-    if (!userExists) {
+    const userExists = await isExistsUser(userId);
+
+    if (!userExists ) {
       res.send({
         success: false,
         message: "Invalid user: The user does not exist",
@@ -222,6 +168,34 @@ const addToCardProductWithUser = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+const login = async (req, res) => {
+
+
+  const { email, password } = req.body
+
+  console.log(req.body)
+
+
+  if(email == 'srka780@gmail.com' && password == '123456'){ res.send({
+    success: true,
+    data: {email: req.body.email}
+  })}else{
+    res.send({
+      success: false,
+      mag: "fill all input"
+    })
+  }
+
+  
+
+}
 async function registerUser(req, res) {
   const usersData = req.body;
 

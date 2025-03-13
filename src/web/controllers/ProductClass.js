@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import prisma from "../../DB/db.config.js";
 
 
@@ -81,6 +82,39 @@ class ProductClass {
         }
 
     }
+
+
+    static async wishlist (req, res) {
+
+        // const query = req.query.item
+        
+        // console.log(query)
+
+        // res.send('wishlist api test')    ${Prisma.join(query)}
+
+
+        try{
+            const query = req.query.item
+            
+            let isQueryArray;
+            if(!query) return res.send([])
+            if(query && !Array.isArray(query)) {
+                isQueryArray = [query]
+            }else{isQueryArray = query}
+
+            const data = await prisma.$queryRaw(Prisma.sql`
+                SELECT 
+                    id, product_id, product_name, 
+                    price, discount, "stock_Status",
+                    image[0] AS coverimage 
+                FROM "Product" WHERE product_id IN (${Prisma.join(isQueryArray)});`)
+            res.send(data)
+        }catch(err){
+            console.log('wishlist', err)
+            res.send('internal server Error')
+        }
+    }
+
 }
 
 export default ProductClass;

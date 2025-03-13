@@ -7,4 +7,6 @@ productWebApi.route("/product/:id").get(ProductClass.singleProductView);
 
 productWebApi.route("/relatedproducts").get(ProductClass.relatedProducts);
 
+productWebApi.route("/wishlist").get(ProductClass.wishlist);
+
 export default productWebApi;
