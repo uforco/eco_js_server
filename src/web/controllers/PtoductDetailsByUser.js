@@ -154,7 +154,8 @@ const addToCardProductWithUser = async (req, res) => {
         updatedAt: new Date(),
       },
       select: {
-        cart_id: true
+        cart_id: true,
+        product_id: true
       }
     });
     res.send(cardInfo2);
