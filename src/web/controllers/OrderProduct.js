@@ -4,10 +4,8 @@ import prisma from "./../../DB/db.config.js";
 class OrderProductClass {
   static async createOrderProduct(req, res) {
     // const { product_id, quantity, userId } = req.body;
-
     try {
       const orderId = await generateUniqueOrderId();
-
       const newOrder = await prisma.order.create({
         data: {
           order_id: orderId,
@@ -50,6 +48,7 @@ class OrderProductClass {
 
     
   }
+
 }
 
 export default OrderProductClass;
