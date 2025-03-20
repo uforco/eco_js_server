@@ -8,7 +8,7 @@ model Order {
     order_items         orderHistory[]
     deliveryAddress     deliyveryAddress?
     order_date          DateTime            @default(now())
-    order_status        String              @default("Order received") // Order received, Processing, On the way, Delivered
+    order_status        String              @default("Received") // received, Processing, On the way, Completed
     order_progress      Int                 @default(0)         // 0-100
 }
 
@@ -21,21 +21,22 @@ model orderHistory {
     discount            Float
     quantity            Float
     total_price         Decimal
-    order_id            String      @unique
-    order               Order       @relation(fields: [order_id], references: [id])
+    order_cid           String      
+    order               Order       @relation(fields: [order_cid], references: [id])
     createdAt           DateTime    @default(now())
     updatedAt           DateTime    @default(now())
-    @@unique([product_id, order_id])
 }
 
 
 model deliyveryAddress {
     id       String  @id @unique @default(cuid())
+    name     String
     address  String
     city     String
     state    String
     postcode String
+    email    String
     phone    String
-    orderId  String @unique
-    order    Order  @relation(fields: [orderId], references: [id])
+    order_cid  String @unique
+    order    Order  @relation(fields: [order_cid], references: [id])
 }

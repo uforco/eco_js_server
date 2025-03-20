@@ -11,7 +11,9 @@ import orderapi from "./web/router/orderApi.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors())
+app.use(cors({
+  origin: ['https://ecobazar-phi.vercel.app/', 'http://localhost:3000/']
+}))
 app.use(express.json({ limit: "100mb" })); // Some versions of Express accept "Infinity"
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
@@ -29,9 +31,6 @@ app.use('/admin', product)
 app.use('/web', productWebApi)
 app.use('/web', userDetails)
 app.use('/web', orderapi)
-
-
-
 
 
 

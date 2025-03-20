@@ -13,7 +13,8 @@ class Shoppingcart {
             SELECT c.cart_id, c."userId", c.product_id, c.quantity,
                     p.product_name,
                     p.price::FLOAT AS price, 
-                    p.discount::INTEGER AS discount, 
+                    p.discount::INTEGER AS discount,
+                    p.scale,
                     p."stock_Status",
                     image[0] as coverimage
             FROM "addToCart" c

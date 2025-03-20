@@ -50,7 +50,12 @@ class PtoductDetailsByUser {
 
     console.log("singuponly", req.body)
 
-    return res.send({mag: "test", cart_id: "3463473wgsed"})
+
+    const user = await prisma.user.create({
+      data: req.body
+    })
+
+    return res.send(user)
 
 
     
@@ -90,6 +95,9 @@ const login = async (req, res) => {
   
 
 }
+
+
+
 async function registerUser(req, res) {
   const usersData = req.body;
 

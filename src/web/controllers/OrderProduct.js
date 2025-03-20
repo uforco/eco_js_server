@@ -3,7 +3,6 @@ import prisma from "./../../DB/db.config.js";
 
 class OrderProductClass {
   static async createOrderProduct(req, res) {
-    // const { product_id, quantity, userId } = req.body;
     try {
       const orderId = await generateUniqueOrderId();
       const newOrder = await prisma.order.create({
@@ -26,28 +25,90 @@ class OrderProductClass {
       res.send({message: "successfully", newOrder: newOrder })
 
     } catch (error) {
-      console.error("Error creating order:", error.message);
+      console.error("Error creating order:", error);
       res.status(401).send({ message: "something is Wrong please Order try again" });
     } finally {
       await prisma.$disconnect();
     }
-
-    // try {
-    //   await prisma.orderHistory.deleteMany({});
-    //   await prisma.deliyveryAddress.deleteMany({});
-    //   await prisma.order.deleteMany({});
-
-    //   console.log("All data deleted successfully.");
-    // } catch (error) {
-    //   console.error("Error deleting data:", error);
-    // } finally {
-    //   await prisma.$disconnect();
-    // }
-
-    // console.log(req.body)
-
-    
   }
+
+
+  static async getAllOrdersbyUser(req, res) {
+    try{
+      const params = req.params.userid
+
+      const data = await prisma.$queryRaw`
+        SELECT 
+          o.order_id,
+          o.order_date,
+          SUM(oi.total_price)::FLOAT AS total_price,
+          CAST(COUNT(oi.id) AS TEXT)::INTEGER AS total_products,
+          o.order_status
+        FROM "Order" o
+        LEFT JOIN "orderHistory" oi ON o.id = oi.order_cid
+        WHERE o."userId" = ${params}
+        GROUP BY o.id;
+    `;
+      res.send(data)
+    }catch(err){
+      console.log(err)
+      res.send("server problem")
+    }
+  }
+
+
+
+  static async getOrderDetailsByOrderId(req, res) {
+    
+    try{
+      const params = `#${req.params.orderid}`
+
+      const data = await prisma.$queryRaw`
+        SELECT 
+          o.id,
+          o.order_date,
+          CAST(COUNT(oi.id) AS TEXT)::INTEGER AS total_products,
+          JSON_BUILD_OBJECT(
+                'name', da.name,
+                'address', da.address,
+                'email', da.email,
+                'phone', da.phone
+          ) AS deliyveryAddress,
+          o.order_progress,
+          o.order_id,
+          SUM(oi.price * oi.quantity)::FLOAT AS subtotal,
+          SUM(oi.total_price)::FLOAT AS total,
+          SUM(oi.discount) / COUNT(oi.id)::INTEGER AS total_discount,
+          JSON_AGG(
+              JSON_BUILD_OBJECT(
+                  'item_name', p.product_name,
+                  'image', p.Image[0],
+                  -- 'price', CAST(oi.price - (oi.price * (oi.discount / 100)) AS DECIMAL(10,2)),
+                  'price', oi.price,
+                  'quantity', oi.quantity,
+                  'subtotal', (oi.price * oi.quantity)
+              )
+          ) FILTER (WHERE oi.id IS NOT NULL) AS orderHistory
+        FROM "Order" o
+        LEFT JOIN "orderHistory" oi ON o.id = oi.order_cid
+        LEFT JOIN "Product" p ON oi.product_id = p.product_id
+        LEFT JOIN "deliyveryAddress" da ON o.id = da.order_cid
+        WHERE o."order_id" = ${params}
+        GROUP BY o.id, o.order_date, o.order_id, da.id, da.postcode, da.name, da.address, da.email, da.phone;
+    `;
+
+// ${params}
+
+console.log(data)
+
+      res.send(data)
+
+    }catch(err){
+      console.log(err)
+      res.send("server problem")
+    }
+  }
+
 
 }
 

@@ -38,7 +38,7 @@ class ProductClass {
         const data = await prisma.$queryRaw`
             SELECT 
                 id, product_id, product_name, 
-                rating, price, discount,
+                rating, price, discount, category,
                 image[0] AS coverimage 
             FROM "Product";`
 
