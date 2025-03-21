@@ -48,9 +48,6 @@ class ProductClass {
 
     static async relatedProducts (req, res) {
 
-        console.log( req.query )
-
-
         try{
             const data = await prisma.$queryRaw`
             SELECT 
@@ -62,18 +59,6 @@ class ProductClass {
             AND product_id != ${req.query.product_id}
             LIMIT 4;`
             
-            // const data2 = await prisma.product.findMany({
-            //     where:{
-            //         category: req.query.category,
-            //         product_id: { not: req.query.product_id}
-            //     },
-            //     select: {
-
-            //     }
-            // })
-            console.log(data)
-
-
             res.send(data)
 
         } catch (err) {
@@ -83,15 +68,7 @@ class ProductClass {
 
     }
 
-
     static async wishlist (req, res) {
-
-        // const query = req.query.item
-        
-        // console.log(query)
-
-        // res.send('wishlist api test')    ${Prisma.join(query)}
-
 
         try{
             const query = req.query.item
@@ -114,6 +91,21 @@ class ProductClass {
             res.send('internal server Error')
         }
     }
+
+    static async fillter (req, res) {
+        try{
+            const data = await prisma.$queryRaw`
+                SELECT 
+                    DISTINCT category
+                FROM "Product"
+            `
+            res.send(data)
+        }catch(err) {
+            console.log(err)
+            res.send("Error - ", err)
+        }
+    }
+
 
 }
 
