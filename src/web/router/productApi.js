@@ -3,6 +3,13 @@ import ProductClass from "../controllers/ProductClass.js";
 
 productWebApi.route("/products").get(ProductClass.allProducts);
 productWebApi.route("/product/:id").get(ProductClass.singleProductView);
+
+
+productWebApi.route("/featured-products").get(ProductClass.featuredProducts);
+
+productWebApi.route("/bestrateddealproduct").get(ProductClass.hotBestRatedProduct);
+
+
 productWebApi.route("/relatedproducts").get(ProductClass.relatedProducts);
 
 productWebApi.route("/categoriefillter").get(ProductClass.fillter);
