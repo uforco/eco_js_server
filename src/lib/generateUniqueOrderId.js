@@ -6,7 +6,7 @@ async function generateUniqueOrderId() {
     let exists = true;
   
     while (exists) {
-      order_id = `#${Math.floor(100000 + Math.random() * 900000)}`;
+      order_id = `#${Math.floor(100000 + Math.random() * 999999)}`;
   
       const existingOrder = await prisma.order.findUnique({
         where: { order_id },
