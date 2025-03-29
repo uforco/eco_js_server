@@ -1,5 +1,5 @@
 import userDetails from "../../lib/Routing.js";
-import PtoductDetailsByUser from "../controllers/PtoductDetailsByUser.js";
+import UserSystem from "../controllers/UserSystem.js";
 import Shoppingcart from "../controllers/shoppingcart.js";
 
 userDetails.route("/allcardinfo/:userId").get(Shoppingcart.getAllCartProductWithUser);
@@ -11,15 +11,17 @@ userDetails.route("/add-to-card/:cartid").delete(Shoppingcart.deleteSinglCart);
 
 
 
-userDetails.route("/singup").post(PtoductDetailsByUser.singupUser);
 
-userDetails.route("/singuponly").post(PtoductDetailsByUser.singuponly);
+// user upser api system
 
-
-userDetails.route("/login").post(PtoductDetailsByUser.getLogin);
+userDetails.route("/oauth_check").post(UserSystem.oauthChecking);
 
 
-userDetails.route("/getusers").get(PtoductDetailsByUser.getUsersDetails);
+userDetails.route("/singup").post(UserSystem.singupUser);
+
+userDetails.route("/login").post(UserSystem.getLogin);
+
+userDetails.route("/getusers").get(UserSystem.getUsersDetails);
 
 
 

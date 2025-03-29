@@ -5,7 +5,7 @@ orderapi.route("/order").post(OrderProductClass.createOrderProduct);
 
 orderapi.route("/orders_history/:userid").get(OrderProductClass.getAllOrdersbyUser); //Plurale orders items
 
-orderapi.route("/order-history/:orderid").get(OrderProductClass.getOrderDetailsByOrderId); //Singolare Order item 
+orderapi.route("/order_history_details/:orderid").get(OrderProductClass.getOrderDetailsByOrderId); //Singolare Order item 
 
 
 

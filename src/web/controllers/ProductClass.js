@@ -72,16 +72,40 @@ class ProductClass {
   }
 
   static async allProducts(req, res) {
-    const data = await prisma.$queryRaw`
-            SELECT 
-                id, product_id, product_name, 
-                rating, price, discount, category,
-                image[0] AS coverimage 
-            FROM "Product";`;
+    // const data = await prisma.$queryRaw`
+    //         SELECT 
+    //             id, product_id, product_name, 
+    //             rating, price, discount, category,
+    //             image[0] AS coverimage 
+    //         FROM "Product"
+    //         ORDER BY product_id
+    //         LIMIT 5
+    //         OFFSET 5
+    //         `;
+    const limit = 12;
+    const pagenumber = Number(req.query.page)*limit
 
-    console.log("hit url ui");
-    res.send(data);
+    const data = await prisma.$queryRaw`
+            WITH product_data AS (
+                SELECT 
+                    id, product_id, product_name, 
+                    rating, price, discount, category,
+                    image[0] AS coverimage
+                FROM "Product"
+                ORDER BY id
+                LIMIT ${limit} OFFSET ${pagenumber}
+            )
+            SELECT 
+                  COALESCE(json_agg(product_data), '[]'::json) AS products, 
+                  (SELECT CEIL(COUNT(*)::FLOAT / ${limit}) FROM "Product") AS total_count
+            FROM product_data;
+            `;
+
+    console.log(data[0].products.length);
+    res.send(data[0]);
   }
+
+
 
   static async featuredProducts(req, res) {
     const data = await prisma.$queryRaw`
