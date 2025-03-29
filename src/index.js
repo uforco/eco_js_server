@@ -28,7 +28,7 @@ app.use('/admin', product)
 
 
 
-app.use('/web', productWebApi)
+app.use('/web', (req, res, next)=> { next() }, productWebApi)
 app.use('/web', userDetails)
 app.use('/web', orderapi)
 

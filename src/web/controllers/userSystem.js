@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt"
 import prisma from "../../DB/db.config.js";
 
 class UserSystem {
@@ -54,7 +55,9 @@ class UserSystem {
     }
   }
 
-
+  // static async singupUser(req, res) {
+  //   return registerUser(req, res);
+  // }
   static async singupUser(req, res) {
     return registerUser(req, res);
   }
@@ -147,27 +150,32 @@ async function registerUser(req, res) {
     // password hash system this area
 
 
+    const salt =  bcrypt.genSaltSync(6);
+    const hash = bcrypt.hashSync(password, salt);
 
 
     // Create a new user in the database
-    // const newUser = await prisma.user.create({
-    //   data: {
-    //     email: email,
-    //     password: password,
-    //     provider: 'credentials',
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //   },
-    //   select: {
-    //     userId: true,
-    //     email: true,
-    //     firstName: true,
-    //     lastName: true,
-    //     verify: true,
-    //   }
-    // });
+    const newUser = await prisma.user.create({
+      data: {
+        email: email,
+        password: hash,
+        provider: 'credentials',
+        firstName: firstName,
+        lastName: lastName,
+      },
+      select: {
+        userId: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        verify: true,
+      }
+    });
 
-    res.send({success: true, password});
+
+    // const decodePassword = bcrypt.compareSync(password, hash)
+
+    res.send({success: true, newUser});
 
 
     // is pointed nice work is sql - don't delete this
