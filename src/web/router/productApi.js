@@ -4,7 +4,7 @@ import ProductClass from "../controllers/ProductClass.js";
 productWebApi.route("/search_product/:title").get(ProductClass.likesearchfiletr);
 productWebApi.route("/submit-search/:title").get(ProductClass.submitSearchfiletr);
 
-productWebApi.route("/products").get((req, res, next)=> { next() }, ProductClass.allProducts);
+productWebApi.route("/products").get(ProductClass.allProducts);
 
 
 productWebApi.route("/product/:id").get(ProductClass.singleProductView);

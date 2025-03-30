@@ -1,5 +1,6 @@
 import prisma from "../../DB/db.config.js";
-import { Prisma } from "@prisma/client";
+import pkg from '@prisma/client';
+const { Prisma } = pkg
 import isExistsUser from "../../lib/isExistsUser.js";
 
 

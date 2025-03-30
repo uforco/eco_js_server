@@ -6,9 +6,10 @@ import prisma from "./DB/db.config.js";
 import productWebApi from "./web/router/productApi.js";
 import userDetails from "./web/router/user.js";
 import orderapi from "./web/router/orderApi.js";
+import product_cart from "./web/router/productCart.js";
 
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors({
@@ -28,8 +29,9 @@ app.use('/admin', product)
 
 
 
-app.use('/web', (req, res, next)=> { next() }, productWebApi)
+app.use('/web', productWebApi)
 app.use('/web', userDetails)
+app.use('/web', product_cart)
 app.use('/web', orderapi)
 
 

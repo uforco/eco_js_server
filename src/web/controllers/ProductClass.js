@@ -1,5 +1,7 @@
-import { Prisma } from "@prisma/client";
+import pkg from '@prisma/client';
+const { Prisma } = pkg
 import prisma from "../../DB/db.config.js";
+import allproductsService from "../services/products/allproducts.service.js";
 
 class ProductClass {
 
@@ -72,37 +74,13 @@ class ProductClass {
   }
 
   static async allProducts(req, res) {
-    // const data = await prisma.$queryRaw`
-    //         SELECT 
-    //             id, product_id, product_name, 
-    //             rating, price, discount, category,
-    //             image[0] AS coverimage 
-    //         FROM "Product"
-    //         ORDER BY product_id
-    //         LIMIT 5
-    //         OFFSET 5
-    //         `;
-    const limit = 12;
-    const pagenumber = Number(req.query.page)*limit
-
-    const data = await prisma.$queryRaw`
-            WITH product_data AS (
-                SELECT 
-                    id, product_id, product_name, 
-                    rating, price, discount, category,
-                    image[0] AS coverimage
-                FROM "Product"
-                ORDER BY id
-                LIMIT ${limit} OFFSET ${pagenumber}
-            )
-            SELECT 
-                  COALESCE(json_agg(product_data), '[]'::json) AS products, 
-                  (SELECT CEIL(COUNT(*)::FLOAT / ${limit}) FROM "Product") AS total_count
-            FROM product_data;
-            `;
-
-    console.log(data[0].products.length);
-    res.send(data[0]);
+    try{
+      const allproducts = await allproductsService(req, res)
+      return res.send(allproducts)
+    }catch(err){
+      console.log("  ")
+      return res.status(500).send(useridentity);
+    }
   }
 
 
