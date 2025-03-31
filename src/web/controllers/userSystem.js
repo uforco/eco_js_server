@@ -5,6 +5,7 @@ import registerUserService from "../services/user/registerUser.service.js";
 import loginUserService from "../services/user/loginUser.Service.js";
 import OauthDataChecking from '../services/user/oauthChecking.service.js';
 import prisma from "../../DB/db.config.js";
+import AuthorizeJWT from "../../authorizeJWT/authorize_jwt.js";
 
 class UserSystem {
 
@@ -24,6 +25,7 @@ class UserSystem {
       } 
   }
 
+  // TODO: get signup data with font end
   static async singupUser(req, res) {
     try{
       const newUserData = req.body;
@@ -47,24 +49,14 @@ class UserSystem {
   }
 
   static async loginprovider (req, res) {
-
+    //TODO: form data validation
     const { provider, email, password } =  req.body
-
     try{
-
-     
       return await loginUserService(req, res)
     }catch(err){
       console.log(' loginprovider :', err)
       res.status(500).send({success: false, error: 'something worg'})
     }
-
-
-
-
-
-
-
 
     // console.log()
 
@@ -87,6 +79,39 @@ class UserSystem {
 
   }
 
+
+
+  static async forgetPasswoard(req, res) {
+
+
+    console.log("==========rest P t==========", req.body)
+
+    // find email info
+    try{
+      const userinfo = await prisma.user.findUnique({
+        where: req.body,
+        select: {
+          id: true,
+          userId: true,
+          provider: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          verify: true
+        }
+      })
+      if(!userinfo){
+        return res.status(401).send({error: 'check your email'})
+      }
+      const resetPasswordToken = await AuthorizeJWT.generateJWT(userinfo, '5m')
+
+      res.send({rpToken: resetPasswordToken})
+
+    }catch(err){
+      console.log('reset Password Token - ', err)
+      res.send({error: 'something this wrong code - s2'})
+    }
+  }
 
 }
 export default UserSystem;

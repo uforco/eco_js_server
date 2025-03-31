@@ -2,8 +2,9 @@ import jwt from 'jsonwebtoken'
 
 class AuthorizeJWT {
 
-    static async generateJWT(data){
-        const bearerToken = jwt.sign(data, process.env.JWT_SECRET_KEY, { expiresIn: '1h'})
+    static async generateJWT(data, expires){
+        const time = expires || '1h' 
+        const bearerToken = jwt.sign(data, process.env.JWT_SECRET_KEY, { expiresIn: time})
         return bearerToken;
     }
 
