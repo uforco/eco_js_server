@@ -31,8 +31,6 @@ app.use('/admin', product)
 //  console.log("authorizeion")
 // }
 
-console.log(process.env.WEB_FONT_END, process.env.EMAILADDRESS, process.env.EPASSCODE)
-
 
 app.use('/web', productWebApi)
 app.use('/web', userDetails)
