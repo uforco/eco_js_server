@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+// Load environment variables
+dotenv.config();
 import express from "express";
 import dashboard from "./admin/routes/dashboard.js";
 import product from "./admin/routes/product.js";
@@ -9,11 +12,12 @@ import orderapi from "./web/router/orderApi.js";
 import product_cart from "./web/router/productCart.js";
 
 
+
 export const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: ['https://ecobazar-phi.vercel.app/', 'http://localhost:3000/']
+  origin: [process.env.WEB_FONT_END, 'http://localhost:3000/']
 }))
 app.use(express.json({ limit: "100mb" })); // Some versions of Express accept "Infinity"
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -27,6 +31,7 @@ app.use('/admin', product)
 //  console.log("authorizeion")
 // }
 
+console.log(process.env.WEB_FONT_END, process.env.EMAILADDRESS, process.env.EPASSCODE)
 
 
 app.use('/web', productWebApi)

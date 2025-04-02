@@ -37,9 +37,8 @@ export default async function loginUserService(req, res) {
             .send({success: true, userInfo});
     }
 
-
     // credentials system
-    if(provider === 'credentials' && (provider !== data[0].provider || !data[0]?.password)){
+    if(provider === 'credentials' && (!password || !data[0]?.password)){
         return res
         .status(401)
         .send({ success: false, error: "Invalid Password"});

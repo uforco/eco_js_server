@@ -11,8 +11,8 @@ userDetails.route("/signin").post(UserSystem.loginprovider);
 
 // forget passward
 userDetails.route("/forget_passwoard/create-link").post(UserSystem.forgetPasswoard);
-
-// userDetails.route("/forget_passwoard").post();
+userDetails.route("/forget_passwoard/check-url/:token").get(UserSystem.forgetPasswoard_check_token);
+userDetails.route("/forget_passwoard/submit_passward/:token").post(UserSystem.forget_submit_password);
 
 
 
