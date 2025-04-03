@@ -1,9 +1,9 @@
 
-// import prisma from "../../DB/db.config.js";
+import prisma from "../../DB/db.config.js";
 
-// import registerUserService from "../services/user/registerUser.service.js";
-// import loginUserService from "../services/user/loginUser.Service.js";
-// import OauthDataChecking from '../services/user/oauthChecking.service.js';
+import registerUserService from "../services/user/registerUser.service.js";
+import loginUserService from "../services/user/loginUser.Service.js";
+import OauthDataChecking from '../services/user/oauthChecking.service.js';
 import forgetPasswoardSendEmailVarify from "../services/user/forgetPasswoardSendEmailVarify.js";
 import forgetPasswoardCheckToken from "../services/user/forgetPasswoardCheckToken.js";
 import forgetSubmitNewPassword from "../services/user/forgetSubmitNewPassword.js";
