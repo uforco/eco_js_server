@@ -1,11 +1,11 @@
 import userDetails from "../../lib/Routing.js";
-// import UserSystem from "../controllers/UserSystem.js";
+import UserSystem from './../controllers/userSystem';
 
 
 // Open url with users 
 
 // user upser api system
-// userDetails.route("/oauth_check").post(UserSystem.oauthChecking);
+userDetails.route("/oauth_check").post(UserSystem.oauthChecking);
 // userDetails.route("/singup").post(UserSystem.singupUser);
 // userDetails.route("/signin").post(UserSystem.loginprovider);
 
