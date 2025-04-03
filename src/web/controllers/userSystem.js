@@ -10,7 +10,6 @@ import forgetSubmitNewPassword from "../services/user/forgetSubmitNewPassword.js
 
 class UserSystem {
 
-
   static async oauthChecking(req, res) {
       try{
         const useridentity = await OauthDataChecking(req.body);
