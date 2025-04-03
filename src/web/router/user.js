@@ -6,8 +6,8 @@ import UserSystem from "../controllers/UserSystem.js";
 
 // user upser api system
 userDetails.route("/oauth_check").post(UserSystem.oauthChecking);
-userDetails.route("/singup").post(UserSystem.singupUser);
-userDetails.route("/signin").post(UserSystem.loginprovider);
+// userDetails.route("/singup").post(UserSystem.singupUser);
+// userDetails.route("/signin").post(UserSystem.loginprovider);
 
 
 // forget passward
