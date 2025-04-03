@@ -9,11 +9,12 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/src/index.js"
     }
   ],
   "build": {
     "env": {
+      "DATABASE_URL": "@DATABASE_URL",
       "PNPM_VERSION": "8"
     }
   }
