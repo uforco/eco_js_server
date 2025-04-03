@@ -58,26 +58,6 @@ class UserSystem {
       console.log(' loginprovider :', err)
       res.status(500).send({success: false, error: 'something worg'})
     }
-
-    // console.log()
-
-    // if(email){
-    //   return res.status(400).send(" no email ")
-    // }
-    
-    // try{
-    //   return await loginUserService(req, res)
-    // }catch(err){
-    //   console.log(" login server Error :", err)
-
-    //   if (err instanceof Prisma.PrismaClientKnownRequestError) {
-    //     console.log({ error: `Prisma Error: ${err.message}` })
-    //     // return res.status(500).json();
-    //   }
-
-    //   return res.status(500).send({ success: false, error: "internal server issue"})
-    // }
-
   }
 
 
