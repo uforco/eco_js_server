@@ -2,14 +2,14 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 import express from "express";
-import dashboard from "./admin/routes/dashboard.js";
-import product from "./admin/routes/product.js";
+import dashboard from "./src/admin/routes/dashboard.js";
+import product from "./src/admin/routes/product.js";
 import cors from "cors";
-import prisma from "./DB/db.config.js";
-import productWebApi from "./web/router/productApi.js";
-import userDetails from "./web/router/user.js";
-import orderapi from "./web/router/orderApi.js";
-import product_cart from "./web/router/productCart.js";
+import prisma from "./src/DB/db.config.js";
+import productWebApi from "./src/web/router/productApi.js";
+import userDetails from "./src/web/router/user.js";
+import orderapi from "./src/web/router/orderApi.js";
+import product_cart from "./src/web/router/productCart.js";
 
 
 
