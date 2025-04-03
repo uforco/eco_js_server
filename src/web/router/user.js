@@ -1,5 +1,5 @@
 import userDetails from "../../lib/Routing.js";
-import UserSystem from "../controllers/UserSystem.js";
+import UserSystem from './../controllers/userSystem.js';
 
 // Open url with users 
 

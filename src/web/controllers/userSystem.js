@@ -1,6 +1,6 @@
 
 import prisma from "../../DB/db.config.js";
-// const { Prisma } = pkg
+
 import registerUserService from "../services/user/registerUser.service.js";
 import loginUserService from "../services/user/loginUser.Service.js";
 import OauthDataChecking from '../services/user/oauthChecking.service.js';
