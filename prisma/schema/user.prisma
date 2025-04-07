@@ -1,22 +1,18 @@
 model User {
-  id            Int    @id @unique @default(autoincrement())
-  userId        String @unique @default(cuid())
-  provider      String 
-  profileImage  String? @default("https://github.com/shadcn.png")
-  firstName     String @db.VarChar(30)
-  lastName      String? @db.VarChar(30)
-  email         String @unique
-  password      String?
-  phoneNumber   String?
-  
-  verify        Boolean @default(false)
+  id               Int          @id @unique @default(autoincrement())
+  userId           String       @unique @default(cuid())
+  provider         String
+  profileImage     String?      @default("https://github.com/shadcn.png")
+  firstName        String       @db.VarChar(30)
+  lastName         String?      @db.VarChar(30)
+  email            String       @unique
+  password         String?
+  phoneNumber      String?
+  verify           Boolean      @default(false)
   verificationCode String?
-
-  userAddress   userAddress?
-  Order         Order[]
-  
+  Order            Order[]
+  userAddress      userAddress?
 }
-
 
 model userAddress {
   id       Int    @id @unique @default(autoincrement())
@@ -26,5 +22,6 @@ model userAddress {
   postcode String
   userId   Int    @unique
   user     User   @relation(fields: [userId], references: [id])
+
   @@unique([userId, id])
 }
