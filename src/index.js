@@ -15,7 +15,7 @@ export const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: [process.env.WEB_FONT_END, 'http://localhost:3000', prisma.env.WEB_ADMIN],
+  origin: [process.env.WEB_FONT_END, 'http://localhost:3000', process.env.WEB_ADMIN],
 }))
 app.use(express.json({ limit: "100mb" })); // Some versions of Express accept "Infinity"
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
