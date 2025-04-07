@@ -44,22 +44,36 @@ class AdminProductAnalytics {
     }
   }
   static async getProductStock(req, res) {
-    const products = await prisma.product.findMany({
-      select: {
-        id: true,
-        product_name: true,
-        category: true,
-        brand_name: true,
-        short_Description: true,
-        image: true,
-        price: true,
-        discount: true,
-        stock_Status: true,
-        rating: true,
-      },
-    });
-    console.log(products);
-    res.send(products);
+    // const products = await prisma.product.findMany({
+    //   select: {
+    //     id: true,
+    //     product_name: true,
+    //     category: true,
+    //     brand_name: true,
+    //     short_Description: true,
+    //     image: true,
+    //     price: true,
+    //     discount: true,
+    //     stock_Status: true,
+    //     rating: true,
+    //   },
+    // });
+    // console.log(products);
+
+    try{
+      const products = await prisma.$queryRaw`
+        SELECT 
+            id, product_id, product_name, category, brand_name,
+            "short_Description", image[0] AS coverimage, price, discount, 
+            "stock_Status", rating
+        FROM "Product";
+      `;
+      res.send(products);
+    }catch(err){
+      console.log("get product stock - prisma db error :", err)
+      res.send([]);
+    }
+    
   }
   static async updateStock(req, res) {
     const { id, stockStatus, stock } = req.body;
